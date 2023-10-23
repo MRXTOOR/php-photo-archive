@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма предложения фотографий</title>
+    <link rel="stylesheet" href="styles-predlog.css">
+</head>
+
+<body>
+    <div class="suggestions-form">
+        <h2>Фотографии для предложения</h2>
+        <ul class="suggestions-list">
+            <li>
+                <div class="suggestion-info">
+                    <p>Имя пользователя: John Doe</p>
+                    <p>Название фотографии: Фото 1</p>
+                    <p>Дата фотографии: 01.01.2023</p>
+                    <p>Автор фотографии: John Doe</p>
+                    <p>Мероприятие: Событие 1</p>
+                    <p>Описание фотографии: Описание фото 1</p>
+                </div>
+                <div class="suggestion-actions">
+                    <button class="approve-button">✓</button>
+                    <button class="reject-button">✗</button>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+    <div class="move-to-album-form">
+        <h2>Выберите альбом для перемещения фотографии</h2>
+        <select id="album-select">
+            <option value="album1">Альбом 1</option>
+            <option value="album2">Альбом 2</option>
+            <option value="album3">Альбом 3</option>
+
+        </select>
+        <button id="move-button">Переместить</button>
+        <button id="cancel-move-button">Отмена</button>
+    </div>
+    <script src="script-modal-predlog.js"></script>
+</body>
+
+</html>
