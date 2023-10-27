@@ -1,3 +1,36 @@
+<?php
+session_start();
+include 'config.php';
+
+// Проверяем, авторизован ли пользователь
+if (!isset($_SESSION['user_name'])) {
+    header("Location: login.php"); // Перенаправляем неавторизованных пользователей на страницу авторизации
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Получаем данные из формы
+    $photo_name = $_POST['photo_name'];
+    $photo_date = $_POST['photo_date'];
+    $photo_event = $_POST['photo_event'];
+    $photo_description = $_POST['photo_description'];
+    
+    // Добавьте код для обработки и вставки данных в базу данных, используя SQL-запрос
+    $user_id = $_SESSION['user_id']; // Получите ID пользователя из сессии
+
+    // SQL-запрос для добавления заявки на фотографию
+    $sql = "INSERT INTO PhotoSuggestions (UserID, PhotoName, PhotoDate, PhotoEvent, PhotoDescription) VALUES ('$user_id', '$photo_name', '$photo_date', '$photo_event', '$photo_description')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Заявка успешно отправлена!";
+    } else {
+        echo "Ошибка: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
