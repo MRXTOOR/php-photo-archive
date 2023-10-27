@@ -7,17 +7,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = $_POST['login'];
     $password = $_POST['password'];
     
-    // Получаем имя файла и путь к временному файлу
+   
     $avatarName = $_FILES['avatar']['name'];
     $avatarTmpName = $_FILES['avatar']['tmp_name'];
     
-    // Папка, куда будет загружен аватар
-    $avatarPath = 'avatars/' . $avatarName; // Создайте папку "avatars" в корне проекта
+  
+    $avatarPath = 'avatars/' . $avatarName; 
 
     // Хэшируем пароль (рекомендуется использовать более безопасные методы хеширования)
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // SQL-запрос для добавления пользователя в базу данных
+   
     $sql = "INSERT INTO Users (Login, Name, Password, Avatar) VALUES ('$login', '$name', '$hashedPassword', '$avatarPath')";
 
     if ($conn->query($sql) === TRUE) {
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         move_uploaded_file($avatarTmpName, $avatarPath);
         // Перенаправляем пользователя на страницу авторизации после успешной регистрации
         header("Location: login.php");
-        exit(); // Важно завершить выполнение скрипта после отправки заголовка
+        exit(); 
     } else {
         echo "Ошибка: " . $sql . "<br>" . $conn->error;
     }

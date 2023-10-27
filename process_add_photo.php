@@ -15,10 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $photo_event = $_POST['photo_event'];
     $photo_description = $_POST['photo_description'];
     
-    // Добавьте код для обработки и вставки данных в базу данных, используя SQL-запрос
+   
     $user_id = $_SESSION['user_id']; // Получите ID пользователя из сессии
 
-    // SQL-запрос для добавления заявки на фотографию
+   
     $sql = "INSERT INTO PhotoSuggestions (UserID, PhotoName, PhotoDate, PhotoEvent, PhotoDescription) VALUES ('$user_id', '$photo_name', '$photo_date', '$photo_event', '$photo_description')";
 
     if ($conn->query($sql) === TRUE) {
