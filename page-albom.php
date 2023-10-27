@@ -2,7 +2,7 @@
 include 'config.php';
 session_start(); // Запускаем сессию
 
-
+if (isset($_SESSION['user_name'])) {
 if (isset($_SESSION['user_name'])) {
     $user_name = $_SESSION['user_name'];
 
@@ -49,14 +49,14 @@ if(isset($_GET['album_id'])) {
         echo '</div>';
         echo '<div class="photos">';
 
-        // Отображаем фотографии
-        while ($photoRow = $photosResult->fetch_assoc()) {
-            echo '<a href="./page-photo.php?photo_id=' . $photoRow['ID_Photos'] . '">';
-            echo '<img src="' . $photoRow['FilePath'] . '" alt="Фотография">';
-            echo '</a>';
-        }
+// Отображаем фотографии
+while ($photoRow = $photosResult->fetch_assoc()) {
+    echo '<a href="./page-photo.php?photo_id=' . $photoRow['ID_Photos'] . '">';
+    echo '<img src="' . $photoRow['Image_Path'] . '" alt="Фотография">';
+    echo '</a>';
+}
 
-        echo '</div>';
+echo '</div>';
         echo '</div>';
         echo '</body>';
         echo '<footer class="footer">';
@@ -76,4 +76,8 @@ if(isset($_GET['album_id'])) {
 }
 
 $conn->close();
+} else {
+    // Если пользователь не авторизован, выведите сообщение или перенаправьте на страницу авторизации
+    echo 'Вы не авторизованы. <a href="login.php">Авторизуйтесь</a> для просмотра фотографий.';
+}
 ?>

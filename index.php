@@ -34,8 +34,10 @@ include 'config.php';
     }
     ?>
 
-    <div class="albums">
-        <?php
+<div class="albums">
+    <?php
+    // Проверка, авторизован ли пользователь
+    if (isset($_SESSION['user_name'])) {
         // SQL-запрос для получения данных об альбомах
         $sql = "SELECT * FROM Album";
         $result = $conn->query($sql);
@@ -43,7 +45,7 @@ include 'config.php';
         // Выводим названия альбомов и их картинки
         while ($row = $result->fetch_assoc()) {
             echo '<div class="album">';
-            echo '<a href="./page-albom.php?album_id=' . $row['ID_Album'] . '&username=' . $_SESSION['user_name'] . '">';
+            echo '<a href="./page-albom.php?album_id=' . $row['ID_Album'] . '">';
             echo '<img class="album-avatar" src="' . $row['AlbumImage'] . '" alt="Аватар альбома">';
             echo '<div class="album-info">';
             echo '<div class="album-name">' . $row['Name'] . '</div>';
@@ -52,10 +54,14 @@ include 'config.php';
             echo '</div>';
             echo '</div>';
         }
+    } else {
+        // Если пользователь не авторизован, выводите сообщение или перенаправьте на страницу авторизации
+        echo 'Вы не авторизованы. <a href="login.php">Авторизуйтесь</a> для доступа к альбомам.';
+    }
 
-        $conn->close();
-        ?>
-    </div>
+    $conn->close();
+    ?>
+</div>
 
     <footer class="footer">
         <div class="footer-content">

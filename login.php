@@ -1,7 +1,7 @@
 <?php
 include 'config.php';
 
-
+session_start();
 // После успешной авторизации, например, при совпадении логина и пароля
 if ($login_is_successful) {
     // Запускаем сессию
