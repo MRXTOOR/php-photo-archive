@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет</title>
+    <link rel="stylesheet" href="footer.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
@@ -92,7 +93,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
-    <div class="text-center"><a href="Index.php" class="btn btn-primary">Вернуться на главную страницу </a></div>
+    <div class="text-center mt-3 mb-2">
+            <a href="Index.php" class="btn btn-primary mr-2">Вернуться на главную страницу</a>
+            <a href="logout.php" class="btn btn-danger">Выйти из профиля</a>
+        </div>
 </body>
-
+<footer class="footer mt-3">
+    <div class="container">
+        <div class="footer-content">
+            <p>VDOVIN STANISLAV</p>
+            <p>ГБПОУ РО РКРИПТ</p>
+        </div>
+    </div>
+</footer>
 </html>

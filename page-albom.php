@@ -1,8 +1,6 @@
 <?php
 include 'config.php';
-session_start(); // Запускаем сессию
-
-
+session_start();
 if (isset($_GET['album_id'])) {
     $albumId = $_GET['album_id'];
 
@@ -18,7 +16,6 @@ if (isset($_GET['album_id'])) {
         $photosSql = "SELECT * FROM Photos WHERE ID_Album = $albumId";
         $photosResult = $conn->query($photosSql);
         ?>
-
         <!DOCTYPE html>
         <html lang="en">
 
@@ -33,39 +30,38 @@ if (isset($_GET['album_id'])) {
 
         <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <?php
-            if (isset($_SESSION['user_name'])) {
-                $user_name = $_SESSION['user_name'];
-                $user_avatar = ''; // Получите путь к изображению профиля пользователя из базы данных и сохраните в эту переменную
+    <div class="container">
+        <?php
+        if (isset($_SESSION['user_name'])) {
+            $user_name = $_SESSION['user_name'];
+            $user_avatar = ''; // Получите путь к изображению профиля пользователя из базы данных и сохраните в эту переменную
 
-                // Проверяем, есть ли путь к изображению профиля
-                if (!empty($user_avatar)) {
-                    echo '<a class="navbar-brand" href="#"><img src="' . $user_avatar . '" alt="Аватар" class="rounded-circle" style="width: 30px; height: 30px;"></a>';
-                } else {
-                    // Если изображение отсутствует, вы можете отобразить дефолтный аватар
-                    echo '<a class="navbar-brand" href="#"><img src="path_to_default_avatar.jpg" alt="Аватар" class="rounded-circle" style="width: 30px; height: 30px;"></a>';
-                }
-
-                echo '<div class="collapse navbar-collapse" id="navbarNav">';
-                echo '<ul class="navbar-nav ml-auto">';
-                echo '<li class="nav-item">';
-                echo '<a class="nav-link" href="personal_cabinet.php">Личный кабинет</a>';
-                echo '</li>';
-                echo '<li class="nav-item">';
-                echo '<p class="nav-link mb-0">Пользователь: ' . $user_name . '</p>';
-                echo '</li>';
-                echo '</ul>';
-                echo '</div>';
+            // Проверяем, есть ли путь к изображению профиля
+            if (!empty($user_avatar)) {
+                echo '<a class="navbar-brand" href="#"><img src="' . $user_avatar . '" alt="Аватар" class="rounded-circle" style="width: 30px; height: 30px;"></a>';
             } else {
-                header("Location: login.php");
+                // Если изображение отсутствует, вы можете отобразить дефолтный аватар
+                echo '<a class="navbar-brand" href="#"><img src="path_to_default_avatar.jpg" alt="Аватар" class="rounded-circle" style="width: 30px; height: 30px;"></a>';
             }
-            ?>
-        </div>
-    </nav>
+
+            echo '<div class="text-center collapse navbar-collapse" id="navbarNav">';
+            echo '<ul class="navbar-nav ml-auto">';
+            echo '<li class="nav-item">';
+            echo '<a class=" nav-link" href="personal_cabinet.php">Личный кабинет</a>';
+            echo '</li>';
+            echo '<li class="nav-item">';
+            echo '<p class="nav-link mb-0">Пользователь: ' . $user_name . '</p>';
+            echo '</li>';
+            echo '</ul>';
+            echo '</div>';
+        }
+        ?>
+    </div>
+</nav>
+   
 
 
-
+    <div class="mt-2 ml-2"><a href="Index.php" class="btn btn-primary">Вернуться на главную страницу </a></div>
             <div class="container mt-5">
                 <div class="row">
                     <div class="col-md-12">
@@ -103,18 +99,18 @@ if (isset($_GET['album_id'])) {
             <p>ГБПОУ РО РКРИПТ</p>
         </div>
     </div>
-</footer>
+    </footer>
 
-        </html>
+</html>
 
-        <?php
-    } else {
-        // Если альбом не найден, можно вывести сообщение об ошибке или перенаправить на другую страницу
-        echo 'Альбом не найден.';
-    }
+<?php
 } else {
-    // Если ID_Album не передан в URL, можно вывести сообщение об ошибке или перенаправить на другую страницу
-    echo 'ID_Album не передан в URL.';
+// Если альбом не найден, можно вывести сообщение об ошибке или перенаправить на другую страницу
+echo 'Альбом не найден.';
+}
+} else {
+// Если ID_Album не передан в URL, можно вывести сообщение об ошибке или перенаправить на другую страницу
+echo 'ID_Album не передан в URL.';
 }
 
 $conn->close();

@@ -50,26 +50,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация</title>
-    <link rel="stylesheet" href="styles-autar.css">
-    </head>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
 
 <body>
-    <div class="login-form">
-        <h2>Авторизация</h2>
-        <form method="post">
-            <div class="form-group">
-                <label for="login">Логин:</label>
-                <input type="text" id="login" name="login" required>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Авторизация</h2>
+                        <form method="post">
+                            <div class="form-group">
+                                <label for="login">Логин:</label>
+                                <input type="text" id="login" name="login" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Пароль:</label>
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Войти</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">Пароль:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Войти</button>
-        </form>
+        </div>
     </div>
-</body>
 
+    <!-- Bootstrap JS and dependencies (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <p>VDOVIN STANISLAV</p>
+            <p>ГБПОУ РО РКРИПТ</p>
+        </div>
+    </div>
+</footer>
 </html>
 
 

@@ -7,7 +7,7 @@
     <title>Фотография</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="footer.css">
 </head>
 
 <body>
@@ -70,7 +70,7 @@
                     echo '<label for="comment-text">Ваш комментарий</label>';
                     echo '<input type="text" class="form-control" id="comment-text" placeholder="Введите комментарий...">';
                     echo '</div>';
-                    echo '<button class="btn btn-primary" onclick="addComment(' . $photoId . ')">Отправить</button>';
+                    echo '<button class="btn btn-primary text-center  mt-3" onclick="addComment(' . $photoId . ')">Отправить</button>';
                 } else {
                     echo '<div class="alert alert-warning" role="alert">Авторизуйтесь, чтобы оставить комментарий.</div>';
                 }
@@ -89,7 +89,7 @@
         $conn->close();
         ?>
     </div>
-
+    <div class="text-center mt-2 ml-2"><a href="Index.php" class="btn btn-primary">Вернуться на страницу с альбомами </a></div>
     <!-- Bootstrap JS и скрипт для добавления комментария -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -111,5 +111,12 @@
         }
     </script>
 </body>
-
+<footer class="footer mt-3">
+    <div class="container">
+        <div class="footer-content">
+            <p>VDOVIN STANISLAV</p>
+            <p>ГБПОУ РО РКРИПТ</p>
+        </div>
+    </div>
+</footer>
 </html>

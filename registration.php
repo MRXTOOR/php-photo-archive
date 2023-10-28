@@ -34,51 +34,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
-    <link rel="stylesheet" href="styles-registr.css">
-    </head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
 
-    <body>
-        <div class="registration-form">
-            <h2>Регистрация</h2>
-            <form method="post">
-                <div class="form-group">
-                    <label for="name">Имя:</label>
-                    <input type="text" id="name" name="name" required>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Регистрация</h2>
+                        <form method="post">
+                            <div class="form-group">
+                                <label for="name">Имя:</label>
+                                <input type="text" id="name" name="name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login">Логин:</label>
+                                <input type="text" id="login" name="login" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Пароль:</label>
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="avatar">Аватар:</label>
+                                <input type="file" id="avatar" name="avatar" class="form-control" accept="avatars/*">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Регистрация</button>
+                        </form>
+                        <p class="mt-3 text-center">У вас уже есть аккаунт? <a href="login.php">Войдите</a></p>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="login">Логин:</label>
-                    <input type="text" id="login" name="login" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Пароль:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="avatar">Аватар:</label>
-                    <input type="file" id="avatar" name="avatar" accept="avatars/*">
-                </div>
-                <button type="submit">Регистрация</button>
-            </form>
+            </div>
         </div>
+    </div>
 
-        <script>
-            // JavaScript код
-        </script>
-
-<footer class="footer">
-    <div class="footer-content">
-        <p>VDOVIN STANISLAV</p>
-        <p>ГБПОУ РО РКРИПТ</p>
+    <footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <p>VDOVIN STANISLAV</p>
+            <p>ГБПОУ РО РКРИПТ</p>
+        </div>
     </div>
 </footer>
-    </body>
 
-    </html>
-    
+    <!-- Bootstrap JS и скрипты JavaScript могут быть добавлены здесь, если необходимо -->
+
+</body>
+
+</html>
