@@ -28,25 +28,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $addPhotoSql = "INSERT INTO Photos (ID_Album, Name, Description, Date, ID_User, Image_Path)
                             VALUES ($albumId, '" . $photoData['PhotoName'] . "', '" . $photoData['PhotoDescription'] . "', '" . $photoData['PhotoDate'] . "', $userId, '" . $photoData['FilePath'] . "')";
 
-            // Выполняем SQL-запрос
+            // Выполняем SQL-запрос для добавления фотографии
             if ($conn->query($addPhotoSql) === TRUE) {
-                // Если добавление успешно, перенаправляем обратно на страницу администратора
-                header("Location: admin.php");
-                exit();
+                // Если добавление успешно, удаляем заявку
+                $deleteSuggestionSql = "DELETE FROM PhotoSuggestions WHERE ID_Suggestion = $suggestionId";
+                if ($conn->query($deleteSuggestionSql) === TRUE) {
+                    // Если удаление заявки успешно, перенаправляем обратно на страницу администратора
+                    header("Location: admin.php");
+                    exit();
+                } else {
+                    // Если произошла ошибка при удалении заявки
+                    echo "Ошибка при удалении заявки: " . $conn->error;
+                }
             } else {
-                // Если произошла ошибка, можно обработать её соответственно
+                // Если произошла ошибка при добавлении фотографии
                 echo "Ошибка при добавлении фотографии в альбом: " . $conn->error;
             }
         } else {
-            // Если пользователь не найден, обработать ошибку
+            // Если пользователь не найден
             echo "Пользователь не найден.";
         }
     } else {
-        // Если фотография не найдена, обработать ошибку
+        // Если фотография не найдена
         echo "Фотография не найдена.";
     }
 } else {
-    // Если запрос не является POST-запросом, перенаправляем пользователя на главную страницу или страницу ошибки
+    // Если запрос не является POST-запросом
     header("Location: index.php");
     exit();
 }
