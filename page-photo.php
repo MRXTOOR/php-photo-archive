@@ -1,75 +1,99 @@
-<?php
-include 'config.php';
-session_start();
+<!DOCTYPE html>
+<html lang="en">
 
-if (isset($_GET['photo_id'])) {
-    $photoId = $_GET['photo_id'];
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фотография</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
 
-    // SQL-запрос для получения данных о фотографии по ID
-    $photoSql = "SELECT * FROM Photos WHERE ID_Photos = $photoId";
-    $photoResult = $conn->query($photoSql);
+<body>
+    <div class="container">
+        <?php
+        include 'config.php';
+        session_start();
 
-    if ($photoResult->num_rows > 0) {
-        $photoRow = $photoResult->fetch_assoc();
+        if (isset($_GET['photo_id'])) {
+            $photoId = $_GET['photo_id'];
 
-        // SQL-запрос для получения имени пользователя (автора) по ID пользователя
-        $userId = $photoRow['ID_User'];
-        $userSql = "SELECT Name FROM Users WHERE ID_User = $userId";
-        $userResult = $conn->query($userSql);
-        $userRow = $userResult->fetch_assoc();
-        $userName = $userRow['Name'];
+            // SQL-запрос для получения данных о фотографии по ID
+            $photoSql = "SELECT * FROM Photos WHERE ID_Photos = $photoId";
+            $photoResult = $conn->query($photoSql);
 
-        // Отображаем страницу с фотографией и комментариями
-        echo '<!DOCTYPE html>';
-        echo '<html lang="en">';
-        echo '<head>';
-        echo '<meta charset="UTF-8">';
-        echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-        echo '<title>Фотография</title>';
-        echo '<link rel="stylesheet" href="styles.css">';
-        echo '</head>';
-        echo '<body>';
-        echo '<p class="user-info">Пользователь: ' . $_SESSION['user_name'] . '</p>';
-        echo '<div class="photo-container">';
-        echo '<img src="' . $photoRow['Image_Path'] . '" alt="Фотография">';
-        echo '<h2>Название альбома</h2>';
-        echo '<p>Название фото: ' . $photoRow['Name'] . '</p>';
-        echo '<p>Автор: ' . $userName . '</p>';
-        echo '<p>Дата создания: ' . $photoRow['Date'] . '</p>';
-        echo '<p>Описание фото: ' . $photoRow['Description'] . '</p>';
+            if ($photoResult->num_rows > 0) {
+                $photoRow = $photoResult->fetch_assoc();
 
-        // Отображаем комментарии
-        $commentsSql = "SELECT c.*, u.Name AS UserName FROM Comments c 
-        INNER JOIN Users u ON c.ID_User = u.ID_User
-        WHERE c.ID_Photos = $photoId";
-        $commentsResult = $conn->query($commentsSql);
-        echo '<div class="comments">';
-        echo '<h3>Комментарии</h3>';
-        while ($commentRow = $commentsResult->fetch_assoc()) {
-            $commentUser = $commentRow['UserName'];
-            $commentText = $commentRow['Text'];
-        
-            echo '<div class="comment"><strong>' . $commentUser . ':</strong> ' . $commentText . '</div>';
-        }
-        echo '<div class="comment-input">';
-        if (isset($_SESSION['user_name'])) {
-            echo '<input type="text" id="comment-text" placeholder="Введите комментарий...">';
-            echo '<button onclick="addComment(' . $photoId . ')">Отправить</button>';
+                // SQL-запрос для получения имени пользователя (автора) по ID пользователя
+                $userId = $photoRow['ID_User'];
+                $userSql = "SELECT Name FROM Users WHERE ID_User = $userId";
+                $userResult = $conn->query($userSql);
+                $userRow = $userResult->fetch_assoc();
+                $userName = $userRow['Name'];
+
+                // Отображаем страницу с фотографией и комментариями
+                echo '<div class="row mt-5">';
+                echo '<div class="col-md-6 offset-md-3">';
+                echo '<div class="card">';
+                echo '<img src="' . $photoRow['Image_Path'] . '" class="card-img-top" alt="Фотография">';
+                echo '<div class="card-body">';
+                echo '<h5 class="card-title">Название фото: ' . $photoRow['Name'] . '</h5>';
+                echo '<p class="card-text">Автор: ' . $userName . '</p>';
+                echo '<p class="card-text">Дата создания: ' . $photoRow['Date'] . '</p>';
+                echo '<p class="card-text">Описание фото: ' . $photoRow['Description'] . '</p>';
+
+                // Отображаем комментарии
+                $commentsSql = "SELECT c.*, u.Name AS UserName FROM Comments c 
+                                INNER JOIN Users u ON c.ID_User = u.ID_User
+                                WHERE c.ID_Photos = $photoId";
+                $commentsResult = $conn->query($commentsSql);
+                echo '<div class="comments">';
+                echo '<h3 class="mt-4">Комментарии</h3>';
+                while ($commentRow = $commentsResult->fetch_assoc()) {
+                    $commentUser = $commentRow['UserName'];
+                    $commentText = $commentRow['Text'];
+                    echo '<div class="card">';
+                    echo '<div class="card-body">';
+                    echo '<h6 class="card-subtitle mb-2 text-muted">' . $commentUser . '</h6>';
+                    echo '<p class="card-text">' . $commentText . '</p>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+                echo '</div>';
+
+                // Форма для добавления комментария
+                echo '<div class="mt-4">';
+                if (isset($_SESSION['user_name'])) {
+                    echo '<div class="form-group">';
+                    echo '<label for="comment-text">Ваш комментарий</label>';
+                    echo '<input type="text" class="form-control" id="comment-text" placeholder="Введите комментарий...">';
+                    echo '</div>';
+                    echo '<button class="btn btn-primary" onclick="addComment(' . $photoId . ')">Отправить</button>';
+                } else {
+                    echo '<div class="alert alert-warning" role="alert">Авторизуйтесь, чтобы оставить комментарий.</div>';
+                }
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            } else {
+                echo '<div class="alert alert-danger mt-5" role="alert">Фотография не найдена.</div>';
+            }
         } else {
-            echo '<div class="error-message">Авторизуйтесь, чтобы оставить комментарий.</div>';
+            echo '<div class="alert alert-danger mt-5" role="alert">ID_Photos не передан в URL.</div>';
         }
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
-        echo '</body>';
-        echo '<footer class="footer">';
-        echo '<div class="footer-content">';
-        echo '<p>VDOVIN STANISLAV</p>';
-        echo '<p>ГБПОУ РО РКРИПТ</p>';
-        echo '</div>';
-        echo '</footer>';
-        echo '<script>';
-        echo 'function addComment(photoId) {
+
+        $conn->close();
+        ?>
+    </div>
+
+    <!-- Bootstrap JS и скрипт для добавления комментария -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function addComment(photoId) {
             var commentText = document.getElementById("comment-text").value;
             if (commentText.trim() !== "") {
                 var xhr = new XMLHttpRequest();
@@ -84,15 +108,8 @@ if (isset($_GET['photo_id'])) {
             } else {
                 alert("Введите комментарий.");
             }
-        }';
-        echo '</script>';
-        echo '</html>';
-    } else {
-        echo 'Фотография не найдена.';
-    }
-} else {
-    echo 'ID_Photos не передан в URL.';
-}
+        }
+    </script>
+</body>
 
-$conn->close();
-?>
+</html>

@@ -2,20 +2,8 @@
 include 'config.php';
 session_start(); // Запускаем сессию
 
-if (isset($_SESSION['user_name'])) {
-if (isset($_SESSION['user_name'])) {
-    $user_name = $_SESSION['user_name'];
 
-  
-    echo '<p class="user-info">Пользователь: ' . $user_name . '</p>';
-
-} else {
-   
-    header("Location: login.php");
-}
-
-if(isset($_GET['album_id'])) {
-
+if (isset($_GET['album_id'])) {
     $albumId = $_GET['album_id'];
 
     // SQL-запрос для получения данных об альбоме по ID
@@ -29,43 +17,97 @@ if(isset($_GET['album_id'])) {
         // SQL-запрос для получения фотографий для данного альбома
         $photosSql = "SELECT * FROM Photos WHERE ID_Album = $albumId";
         $photosResult = $conn->query($photosSql);
+        ?>
 
-        // HTML-разметка для отображения информации об альбоме и его фотографиях
-        echo '<!DOCTYPE html>';
-        echo '<html lang="en">';
-        echo '<head>';
-        echo '<meta charset="UTF-8">';
-        echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-        echo '<title>Фотоархив</title>';
-        echo '<link rel="stylesheet" href="styles.css">';
-        echo '</head>';
-        echo '<body>';
-      
-        echo '<div class="album-container">';
-        echo '<div class="album-header">';
-        echo '<h2>' . $albumRow['Name'] . '</h2>';
-        echo '<p>Мероприятие: ' . $albumRow['Event'] . '</p>';
-        echo '<p>Описание альбома: ' . $albumRow['Description'] . '</p>';
-        echo '</div>';
-        echo '<div class="photos">';
+        <!DOCTYPE html>
+        <html lang="en">
 
-// Отображаем фотографии
-while ($photoRow = $photosResult->fetch_assoc()) {
-    echo '<a href="./page-photo.php?photo_id=' . $photoRow['ID_Photos'] . '">';
-    echo '<img src="' . $photoRow['Image_Path'] . '" alt="Фотография">';
-    echo '</a>';
-}
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Фотоархив</title>
+            <!-- Bootstrap CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="styles.css">
+        </head>
 
-echo '</div>';
+        <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <?php
+            if (isset($_SESSION['user_name'])) {
+                $user_name = $_SESSION['user_name'];
+                $user_avatar = ''; // Получите путь к изображению профиля пользователя из базы данных и сохраните в эту переменную
+
+                // Проверяем, есть ли путь к изображению профиля
+                if (!empty($user_avatar)) {
+                    echo '<a class="navbar-brand" href="#"><img src="' . $user_avatar . '" alt="Аватар" class="rounded-circle" style="width: 30px; height: 30px;"></a>';
+                } else {
+                    // Если изображение отсутствует, вы можете отобразить дефолтный аватар
+                    echo '<a class="navbar-brand" href="#"><img src="path_to_default_avatar.jpg" alt="Аватар" class="rounded-circle" style="width: 30px; height: 30px;"></a>';
+                }
+
+                echo '<div class="collapse navbar-collapse" id="navbarNav">';
+                echo '<ul class="navbar-nav ml-auto">';
+                echo '<li class="nav-item">';
+                echo '<a class="nav-link" href="personal_cabinet.php">Личный кабинет</a>';
+                echo '</li>';
+                echo '<li class="nav-item">';
+                echo '<p class="nav-link mb-0">Пользователь: ' . $user_name . '</p>';
+                echo '</li>';
+                echo '</ul>';
+                echo '</div>';
+            } else {
+                header("Location: login.php");
+            }
+            ?>
+        </div>
+    </nav>
+
+
+
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="card-title"><?php echo $albumRow['Name']; ?></h2>
+                
+                                <p class="card-text">Описание альбома: <?php echo $albumRow['Description']; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+    <?php
+    // Отображаем фотографии
+    while ($photoRow = $photosResult->fetch_assoc()) {
+        echo '<div class="col-md-3 mb-3">';
+        echo '<a href="./page-photo.php?photo_id=' . $photoRow['ID_Photos'] . '">';
+        echo '<img src="' . $photoRow['Image_Path'] . '" alt="Фотография" class="img-fluid" style="max-width: 200px; max-height: 150px;">';
+        echo '</a>';
         echo '</div>';
-        echo '</body>';
-        echo '<footer class="footer">';
-        echo '<div class="footer-content">';
-        echo '<p>VDOVIN STANISLAV</p>';
-        echo '<p>ГБПОУ РО РКРИПТ</p>';
-        echo '</div>';
-        echo '</footer>';
-        echo '</html>';
+    }
+    ?>
+</div>
+
+
+
+            </div>
+        </body>
+
+        <footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <p>VDOVIN STANISLAV</p>
+            <p>ГБПОУ РО РКРИПТ</p>
+        </div>
+    </div>
+</footer>
+
+        </html>
+
+        <?php
     } else {
         // Если альбом не найден, можно вывести сообщение об ошибке или перенаправить на другую страницу
         echo 'Альбом не найден.';
@@ -76,8 +118,4 @@ echo '</div>';
 }
 
 $conn->close();
-} else {
-    // Если пользователь не авторизован, выведите сообщение или перенаправьте на страницу авторизации
-    echo 'Вы не авторизованы. <a href="login.php">Авторизуйтесь</a> для просмотра фотографий.';
-}
 ?>

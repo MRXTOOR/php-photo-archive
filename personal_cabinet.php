@@ -2,9 +2,8 @@
 session_start();
 include 'config.php';
 
-// Проверяем, авторизован ли пользователь
 if (!isset($_SESSION['user_name'])) {
-    header("Location: login.php"); // Перенаправляем неавторизованных пользователей на страницу авторизации
+    header("Location: login.php");
     exit();
 }
 
@@ -14,16 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $photoEvent = $_POST['photo_event'];
     $photoDescription = $_POST['photo_description'];
     $photoFilePath = $_FILES['photo_file']['tmp_name'];
-
-    // Обработка загруженного файла
-    $targetDirectory = "uploads/"; // Директория, куда будут сохраняться изображения
+    $_SESSION['user_avatar'] = $avatarPathFromDatabase;
+    $targetDirectory = "uploads/";
     $targetFile = $targetDirectory . basename($_FILES['photo_file']['name']);
 
-    // Перемещаем загруженный файл в указанную директорию
     move_uploaded_file($photoFilePath, $targetFile);
 
-    // SQL-запрос для добавления фотографии в базу данных
-    $userId = $_SESSION['user_id']; // предполагается, что у вас есть переменная сессии для ID пользователя
+    $userId = $_SESSION['user_id'];
     $sql = "INSERT INTO Photos (Name, Date, Event, Description, FilePath, ID_User) 
             VALUES ('$photoName', '$photoDate', '$photoEvent', '$photoDescription', '$targetFile', '$userId')";
 
@@ -41,27 +37,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет</title>
-    <link rel="stylesheet" href="styles-profile.css">
-    </head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
 
 <body>
-    <div class="user-profile">
-        <div class="user-info">
-            <h2><?php echo $_SESSION['user_name']; ?></h2>
-            <p>Логин: <?php echo $_SESSION['user_name']; ?></p>
-            <p>Пароль: *******</p> 
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Личный кабинет</h2>
+                    </div>
+                    <div class="card-body">
+                        <h2><?php echo $_SESSION['user_name']; ?></h2>
+                        <p>Логин: <?php echo $_SESSION['user_name']; ?></p>
+                        
+                        <p>Пароль: *******</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="add-photo">
-    <form method="post" action="process_add_photo.php" enctype="multipart/form-data">
-        <!-- Форма для отправки заявки на добавление фотографии -->
-        <input type="file" name="photo_file" accept="image/*" required> <!-- Поле для загрузки изображения -->
-        <input type="text" name="photo_name" placeholder="Название фото" required>
-        <input type="text" name="photo_date" placeholder="Дата создания фото" required>
-        <input type="text" name="photo_event" placeholder="Мероприятие" required>
-        <input type="text" name="photo_description" placeholder="Описание" required>
-        <button type="submit">Отправить заявку</button>
-    </form>
-</div>
+        <div class="row mt-3">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Создать альбом</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="process_add_photo.php" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="photo_file">Выберите фотографию</label>
+                                <input type="file" name="photo_file" id="photo_file" class="form-control" accept="image/*" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="photo_name">Название фото</label>
+                                <input type="text" name="photo_name" id="photo_name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="photo_date">Дата создания фото</label>
+                                <input type="text" name="photo_date" id="photo_date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="photo_event">Мероприятие</label>
+                                <input type="text" name="photo_event" id="photo_event" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="photo_description">Описание</label>
+                                <input type="text" name="photo_description" id="photo_description" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Отправить заявку</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
