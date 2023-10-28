@@ -17,7 +17,7 @@ include 'config.php';
 
 <div class="container">
 
-<div class="display-4 mt-3" text-center >Здесь хранится история колледжа</div>
+<div class="display-4 mt-3 text-center"  >Здесь хранится история колледжа</div>
     <div class="video-container mt-5 ">
         <iframe id="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/XJUACTxwIdE?si=iV8A9BYp23adwSdb&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen autoplay></iframe>
         

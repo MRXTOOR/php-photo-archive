@@ -43,7 +43,7 @@
     $sql = "SELECT * FROM PhotoSuggestions";
     $result = $conn->query($sql);
     ?>
-    <div class="admin-container">
+    <div class="text-center mt-3 admin-container">
         <h2>Страница администрирования</h2>
         <button class="btn btn-primary mb-3" id="create-album-button" data-bs-toggle="modal" data-bs-target="#album-modal">Создать альбом</button>
         <a href="edit_albums.php" class="btn btn-secondary mb-3">Редактировать альбомы</a>
