@@ -87,7 +87,7 @@ if (isset($_GET['id'])) {
             </table>
         </form>
     </div>
-
+<div class="text-center"><a href="edit_albums.php" class="btn btn-primary">Вернуться на страницу редактирования альбома </a></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

@@ -126,7 +126,7 @@
     </ul>
 </div>
 
-
+<div class="text-center"><a href="index.php" class="btn btn-primary">Вернуться на главную страницу сайта</a></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

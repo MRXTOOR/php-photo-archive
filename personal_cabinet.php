@@ -74,8 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="text" name="photo_name" id="photo_name" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="photo_date">Дата создания фото</label>
-                                <input type="text" name="photo_date" id="photo_date" class="form-control" required>
+                            <label for="photo_date">Дата создания фото</label>
+    <input type="date" name="photo_date" id="photo_date" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="photo_event">Мероприятие</label>
@@ -92,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
+    <div class="text-center"><a href="Index.php" class="btn btn-primary">Вернуться на главную страницу </a></div>
 </body>
 
 </html>
